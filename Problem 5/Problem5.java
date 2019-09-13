@@ -1,6 +1,4 @@
 /**
- * Problem Statement:
- * ------------------
  * Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
  *
  * Example 1:
@@ -13,7 +11,7 @@
  * Input: "cbbd"
  * Output: "bb"
  */
-public class LongestPalindromeSubstring {
+public class Problem5 {
 
     /**
      * Method to return the largest palindrome substring found in the given string s
@@ -22,7 +20,7 @@ public class LongestPalindromeSubstring {
      *
      * @param s
      */
-    public String longestPalindromeString(String s) {
+    private static String longestPalindrome(String s) {
         if (s == null || s.isEmpty()) { return ""; }
         int start = 0, end = 0;
 
@@ -30,9 +28,10 @@ public class LongestPalindromeSubstring {
             int len1 = getPalindromeLength(s, i, i);
             int len2 = getPalindromeLength(s, i, i + 1);
             int len = Math.max(len1, len2);
+
             if (len > end - start) {
+                end = i + (len / 2);
                 start = i - (len - 1) / 2;
-                end = i + len / 2;
             }
         }
         return s.substring(start, end + 1);
@@ -42,16 +41,28 @@ public class LongestPalindromeSubstring {
      * Method to get the length of palindrome that starts from index left & right of the given string
      *
      * @param s
-     * @param left
-     * @param right
+     * @param i
+     * @param j
      */
-    private int getPalindromeLength(String s, int left, int right) {
-        int start = left, end = right;
+    private static int getPalindromeLength(String s, int i, int j) {
+        int start = i;
+        int end = j;
 
         while (start > -1 && end < s.length() && s.charAt(start) == s.charAt(end)) {
             start--;
             end++;
         }
         return end - start - 1;
+    }
+
+    /**
+     * Main method for test cases
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        String s = "babad";
+
+        System.out.println(longestPalindrome(s));
     }
 }
