@@ -2,8 +2,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Problem Statement:
- * ------------------
  * Given a string, find the length of the longest substring without repeating characters.
  *
  * Example 1:
@@ -23,7 +21,7 @@ import java.util.Map;
  * Explanation: The answer is "wke", with the length of 3.
  *              Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
  */
-public class LongestSubstring {
+public class Problem3 {
 
     /**
      * Method to get length of longest substring without any repeating character
@@ -40,17 +38,28 @@ public class LongestSubstring {
      *
      * @param s
      */
-    public int lengthOfLongestSubstring(String s) {
-        int maxSubstringLength = 0;
+    private static int lengthOfLongestSubstring(String s) {
+        int maxLength = -1;
         Map<Character, Integer> charIndexMap = new HashMap<>();
 
         for (int i = 0, j = 0; j < s.length(); j++) {
-            if (charIndexMap.containsKey(s.charAt(j))) {
-                i = Math.max(i, charIndexMap.get(s.charAt(j)));
+            char ch = s.charAt(j);
+            if (charIndexMap.containsKey(ch)) {
+                i = Math.max(i, charIndexMap.get(ch));
             }
-            maxSubstringLength = Math.max(maxSubstringLength, j - i + 1);
-            charIndexMap.put(s.charAt(j), j + 1);
+            maxLength = Math.max(maxLength, j - i + 1);
+            charIndexMap.put(ch, j + 1);
         }
-        return maxSubstringLength;
+        return maxLength;
+    }
+
+    /**
+     * Main method to test cases
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        String s = "abcabcabc";
+        System.out.println(lengthOfLongestSubstring(s));
     }
 }
