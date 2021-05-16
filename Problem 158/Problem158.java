@@ -1,6 +1,6 @@
 /**
- * Given a file and assume that you can only read the file using a given method read4, implement a method to read n
- * characters.
+ * Given a file and assume that you can only read the file using a given method read4, implement a method read to
+ * read n characters. Your method read may be called multiple times.
  *
  * Method read4:
  * The API read4 reads four consecutive characters from file, then writes those characters into the buffer array buf4.
@@ -29,59 +29,53 @@
  *     Returns:	int
  * buf[] is a destination, not a source. You will need to write the results to buf[].
  * Note:
+ *
  * Consider that you cannot manipulate the file directly. The file is only accessible for read4 but not for read.
- * The read function will only be called once for each test case.
+ * The read function may be called multiple times.
+ * Please remember to RESET your class variables declared in Solution, as static/class variables are persisted across
+ * multiple test cases. Please see here for more details.
  * You may assume the destination buffer array, buf, is guaranteed to have enough space for storing n characters.
+ * It is guaranteed that in a given test case the same buffer buf is called by read.
  *
  * Example 1:
- * Input: file = "abc", n = 4
- * Output: 3
- * Explanation: After calling your read method, buf should contain "abc". We read a total of 3 characters from the
- * file, so return 3.
- * Note that "abc" is the file's content, not buf. buf is the destination buffer that you will have to write the
- * results to.
+ * Input: file = "abc", queries = [1,2,1]
+ * Output: [1,2,0]
+ * Explanation: The test case represents the following scenario:
+ * File file("abc");
+ * Solution sol;
+ * sol.read(buf, 1); // After calling your read method, buf should contain "a". We read a total of 1 character from
+ * the file, so return 1.
+ * sol.read(buf, 2); // Now buf should contain "bc". We read a total of 2 characters from the file, so return 2.
+ * sol.read(buf, 1); // We have reached the end of file, no more characters can be read. So return 0.
+ * Assume buf is allocated and guaranteed to have enough space for storing all characters from the file.
  *
  * Example 2:
- * Input: file = "abcde", n = 5
- * Output: 5
- * Explanation: After calling your read method, buf should contain "abcde". We read a total of 5 characters from the
- * file, so return 5.
- *
- * Example 3:
- * Input: file = "abcdABCD1234", n = 12
- * Output: 12
- * Explanation: After calling your read method, buf should contain "abcdABCD1234". We read a total of 12 characters
- * from the file, so return 12.
- *
- * Example 4:
- * Input: file = "leetcode", n = 5
- * Output: 5
- * Explanation: After calling your read method, buf should contain "leetc". We read a total of 5 characters from the
- * file, so return 5.
- *
+ * Input: file = "abc", queries = [4,1]
+ * Output: [3,0]
+ * Explanation: The test case represents the following scenario:
+ * File file("abc");
+ * Solution sol;
+ * sol.read(buf, 4); // After calling your read method, buf should contain "abc". We read a total of 3 characters
+ * from the file, so return 3.
+ * sol.read(buf, 1); // We have reached the end of file, no more characters can be read. So return 0.
  *
  * Constraints:
  * 1 <= file.length <= 500
  * file consist of English letters and digits.
- * 1 <= n <= 1000
+ * 1 <= queries.length <= 10
+ * 1 <= queries[i] <= 500
  */
-public class Problem157 {
+public class Problem158 {
 
-    /**
-     * Low level question on how DDR works
-     *
-     * @param buf - Destination buffer
-     * @param n - Number of characters to read
-     * @return - The number of actual characters read
-     */
+    private char[] buf4 = new char[4];
+    private int k = 0;
+
     public int read(char[] buf, int n) {
         int i = 0;
-        char[] buf4 = new char[4];
-        int k = read4(buf4);
-
         while (i < n && k > 0) {
+            k = read4(buf4);
             for (int j = 0; j < k && i < n; j++) {
-                buf[i++] = buf4[j];
+                buf[i] = buf4[j];
             }
             k = read4(buf4);
         }
